@@ -114,19 +114,20 @@ class SimpleAPITester:
     def test_audition_init_only(self):
         """Test audition upload initialization only"""
         print("\n🎬 Testing Audition Upload Init...")
-        
+
         upload_meta = {
-            "name": "Jane Doe",
-            "bigo_id": "jane_doe_123",
-            "email": "jane@example.com",
-            "phone": "+1234567890",
             "filename": "test.mp4",
             "content_type": "video/mp4",
             "total_chunks": 2,
             "file_size": 1048576
         }
-        
-        success, status, response = self.make_request("POST", "public/audition/upload/init", data=upload_meta)
+
+        success, status, response = self.make_request(
+            "POST",
+            "audition/upload/init",
+            token=self.host_token,
+            data=upload_meta
+        )
         if success and 'upload_id' in response and 'submission_id' in response:
             self.log_result("Audition upload init", True, f"Upload ID: {response['upload_id'][:8]}...")
             return response['submission_id']
